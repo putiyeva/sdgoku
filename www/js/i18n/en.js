@@ -1,0 +1,116 @@
+/* SDGoku — English */
+window.SDGOKU_I18N = window.SDGOKU_I18N || {};
+window.SDGOKU_I18N.en = {
+  lang_name: 'English',
+  st_won_of: 'Won / played',
+  months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+  weekdays: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+  day_pattern: '{weekday}, {day} {month}',
+  tagline: 'Sudoku with the Sustainable Development Goals in place of digits',
+
+  tab_home: 'Home', tab_goals: 'Goals', tab_stats: 'Stats', tab_records: 'Records', tab_settings: 'Settings',
+
+  continue_game: 'Continue game', new_game: 'New game', play: 'Play', cancel: 'Cancel', close: 'Close', back: 'Back',
+  filled: '{n}% filled',
+
+  daily_short: 'Daily',
+  daily_title: 'Daily puzzle', daily_done: 'Solved in {time}', daily_streak: 'Streak: {n} d',
+  daily_hint: 'Same for everyone, new at midnight',
+
+  how_title: 'How to play',
+  how_1: 'Each of the nine goals appears once in every row, column and 3×3 box.',
+  how_2: 'Every game uses 9 of the 17 goals, picked at random.',
+  how_3: 'Tap a cell, then a goal below the board. Three mistakes end the game.',
+  how_4: 'Notes mode lets you mark several possible goals in one cell.',
+
+  diff_easy: 'Easy', diff_medium: 'Medium', diff_hard: 'Hard', diff_expert: 'Expert', diff_daily: 'Daily puzzle',
+  open_cells: '{n} cells given',
+  replace_q: 'Your current game will be lost. Start a new one?', replace_yes: 'Start new',
+
+  mistakes: 'Mistakes', tool_undo: 'Undo', tool_erase: 'Erase', tool_notes: 'Notes', tool_hint: 'Hint',
+  caption_pick: 'Tap a cell, then a goal', caption_goal: 'Goal {n}. {name}', caption_notes: 'Notes mode is on',
+  paused: 'Paused', resume: 'Resume', pause: 'Pause', timer: 'Time',
+  toast_no_hints: 'No hints left', toast_ach: 'Achievement: {name}',
+  left_count: '{n} left',
+
+  win_title: 'Solved!', win_time: 'Time', win_mistakes: 'Mistakes', win_hints: 'Hints', win_score: 'Result',
+  score_note: 'Result is your time plus 30 seconds per hint.',
+  new_record: 'New personal best', about_goal: 'About this goal',
+  btn_new: 'New game', btn_home: 'Home', btn_again: 'Try again',
+  over_title: 'Game over', over_text: 'Three mistakes. Try the same puzzle again or start a new one.',
+
+  goals_title: '17 Goals',
+  goals_intro: 'All United Nations Member States adopted the Sustainable Development Goals in 2015. The aim is to reach them by 2030.',
+  goals_progress: 'Goals collected: {n} of 17', goal_solved: 'In solved puzzles: {n}',
+  goal_task: 'One of its targets', learn_more: 'Learn more on the UN website',
+
+  stats_title: 'Stats', st_played: 'Played', st_won: 'Won', st_rate: 'Win rate, %', st_best: 'Best', st_avg: 'Average',
+  st_streak: 'Win streak', st_best_streak: 'Best streak', st_daily_streak: 'Days in a row', st_by_level: 'By level', st_level: 'Level',
+  ach_title: 'Achievements', ach_progress: '{n} of {total}',
+  ach_first_win: 'First step', ach_first_win_d: 'Solve your first puzzle',
+  ach_win_easy: 'Warm-up', ach_win_easy_d: 'Win on Easy',
+  ach_win_medium: 'Steady hand', ach_win_medium_d: 'Win on Medium',
+  ach_win_hard: 'Tough nut', ach_win_hard_d: 'Win on Hard',
+  ach_win_expert: 'Expert', ach_win_expert_d: 'Win on Expert',
+  ach_flawless: 'Flawless', ach_flawless_d: 'Solve a puzzle with no mistakes',
+  ach_no_hints: 'On your own', ach_no_hints_d: 'Solve Medium or higher without hints',
+  ach_speed: 'In one breath', ach_speed_d: 'Solve a puzzle in under 5 minutes',
+  ach_wins_10: 'Ten down', ach_wins_10_d: 'Solve 10 puzzles',
+  ach_wins_50: 'Fifty', ach_wins_50_d: 'Solve 50 puzzles',
+  ach_daily_3: 'Three days running', ach_daily_3_d: 'Solve the daily puzzle 3 days in a row',
+  ach_daily_7: 'A full week', ach_daily_7_d: 'Solve the daily puzzle 7 days in a row',
+  ach_all_goals: 'All 17', ach_all_goals_d: 'Collect all 17 goals in solved puzzles',
+
+  rec_title: 'Records', rec_mine: 'Mine', rec_global: 'Leaderboard',
+  rec_empty: 'No results yet. Solve a puzzle and it will show up here.',
+  rec_cloud_off: 'The shared leaderboard will work in the app once the server is connected. For now you see only your own results.',
+  rec_signin: 'Sign in with email to appear on the leaderboard.',
+  rec_loading: 'Loading…', rec_error: 'Could not load the leaderboard. Check your connection.', rec_you: 'you',
+  rec_hints: 'hints: {n}', rec_player: 'Player',
+
+  set_title: 'Settings', set_lang: 'Language', set_sound: 'Sound', set_haptics: 'Vibration',
+  set_autonotes: 'Clear notes automatically', set_autonotes_d: 'A placed goal disappears from notes in its row, column and box',
+  set_highlight: 'Highlight matching goals', set_highlight_d: 'Other cells are dimmed',
+  set_name: 'Leaderboard name', set_name_ph: 'Player',
+
+  acc_title: 'Account',
+  acc_off: 'Email sign-in will work in the app once the server is connected. For now your progress is stored on this device.',
+  acc_hint: 'Sign in to keep your progress on the server and use it on other devices.',
+  acc_signin: 'Sign in with email', acc_signed: 'Signed in as {email}', acc_signout: 'Sign out', acc_delete: 'Delete account',
+  acc_synced: 'Progress synced', acc_syncing: 'Syncing…', acc_sync_err: 'Sync failed. We will try again later.',
+  reset: 'Reset progress', reset_q: 'Delete all stats, records and achievements on this device?', reset_yes: 'Reset',
+
+  about_title: 'About',
+  about_text: 'SDGoku is an independent educational game. It was not created or approved by the United Nations and does not reflect the views of the UN, its officials or its Member States. The Sustainable Development Goals icons are used for informational purposes under the UN guidelines.',
+  about_link: 'UN Sustainable Development Goals website', version: 'Version {v}',
+
+  auth_in_title: 'Sign in', auth_up_title: 'Create account', email: 'Email', password: 'Password',
+  auth_in: 'Sign in', auth_up: 'Create account',
+  auth_to_up: 'No account? Create one', auth_to_in: 'Already have an account? Sign in',
+  auth_forgot: 'Forgot password?', auth_reset_sent: 'Password reset email sent to {email}',
+  err_email: 'Check the email address', err_password: 'Password must be at least 6 characters',
+  err_wrong: 'Wrong email or password', err_exists: 'An account with this email already exists. Try signing in.',
+  err_network: 'Cannot reach the server. Check your connection and try again.',
+  err_generic: 'That did not work. Please try again.', err_relogin: 'To delete your account, sign in again and repeat.',
+  delete_q: 'Delete your account and all data on the server? This cannot be undone.', delete_yes: 'Delete',
+
+  goals: {
+    1: { name: 'No Poverty', about: 'End poverty in all its forms, everywhere.', task: 'By 2030, no one anywhere should live in extreme poverty.' },
+    2: { name: 'Zero Hunger', about: 'End hunger, secure food for everyone and support sustainable farming.', task: 'By 2030, everyone has safe, nutritious and sufficient food all year round.' },
+    3: { name: 'Good Health and Well-being', about: 'Healthy lives and well-being for people of every age.', task: 'Health coverage for all: quality care, affordable medicines and vaccines.' },
+    4: { name: 'Quality Education', about: 'Inclusive, quality education and lifelong learning for all.', task: 'By 2030, every girl and boy completes free, quality primary and secondary school.' },
+    5: { name: 'Gender Equality', about: 'Equal rights and opportunities for all women and girls.', task: 'End every form of discrimination against women and girls, everywhere.' },
+    6: { name: 'Clean Water and Sanitation', about: 'Water and sanitation available to all and managed sustainably.', task: 'By 2030, safe and affordable drinking water for everyone.' },
+    7: { name: 'Affordable and Clean Energy', about: 'Affordable, reliable, sustainable and modern energy for all.', task: "By 2030, a much larger share of renewables in the world's energy mix." },
+    8: { name: 'Decent Work and Economic Growth', about: 'Sustainable economic growth, full employment and decent work for all.', task: 'By 2030, decent work for all and equal pay for work of equal value.' },
+    9: { name: 'Industry, Innovation and Infrastructure', about: 'Resilient infrastructure, inclusive industry and more innovation.', task: 'Reliable, sustainable infrastructure that everyone can afford and reach.' },
+    10: { name: 'Reduced Inequalities', about: 'Less inequality within countries and between them.', task: 'By 2030, incomes of the poorest 40% grow faster than the national average.' },
+    11: { name: 'Sustainable Cities and Communities', about: 'Cities and settlements that are inclusive, safe, resilient and sustainable.', task: 'By 2030, safe and affordable housing and basic services for all.' },
+    12: { name: 'Responsible Consumption and Production', about: 'Consume and produce in ways the planet can sustain.', task: 'By 2030, halve food waste per person in shops and at home.' },
+    13: { name: 'Climate Action', about: 'Urgent action against climate change and its impacts.', task: 'Better education and awareness on cutting emissions and adapting to climate change.' },
+    14: { name: 'Life Below Water', about: 'Protect oceans, seas and marine resources and use them sustainably.', task: 'By 2025, prevent and sharply reduce marine pollution of every kind.' },
+    15: { name: 'Life on Land', about: 'Protect and restore forests and land ecosystems, and stop desertification.', task: 'Halt biodiversity loss and protect threatened species from extinction.' },
+    16: { name: 'Peace, Justice and Strong Institutions', about: 'Peaceful, inclusive societies, justice for all and accountable institutions.', task: 'By 2030, a legal identity for everyone, including birth registration.' },
+    17: { name: 'Partnerships for the Goals', about: 'A stronger global partnership for sustainable development.', task: 'Effective partnerships between governments, business and civil society.' }
+  }
+};
