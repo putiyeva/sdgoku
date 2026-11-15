@@ -12,7 +12,7 @@
     BOARDS.forEach(function (b) { boards[b] = blankBoard(); records[b] = []; });
     return {
       v: 1,
-      settings: { lang: null, sound: true, haptics: true, autoNotes: true, highlight: true, name: '' },
+      settings: { lang: null, sound: true, haptics: true, autoNotes: true, highlight: true, name: '', view: 'simple' },
       game: null,
       boards: boards,
       goalsSolved: {},
