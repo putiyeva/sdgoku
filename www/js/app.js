@@ -318,7 +318,8 @@
       sw('sound', t('set_sound')) + sw('haptics', t('set_haptics')) +
       sw('autoNotes', t('set_autonotes'), t('set_autonotes_d')) + sw('highlight', t('set_highlight'), t('set_highlight_d')) +
       '<div class="row"><label class="row-text" for="playerName">' + esc(t('set_name')) + '</label>' +
-      '<input id="playerName" class="input short" type="text" maxlength="20" autocomplete="nickname" placeholder="' + esc(t('set_name_ph')) + '" value="' + esc(s.name || '') + '"></div></section>';
+      '<input id="playerName" class="input short" type="text" maxlength="20" autocomplete="nickname" placeholder="' + esc(t('set_name_ph')) + '" value="' + esc(s.name || '') + '"></div>' +
+      '<div class="actions"><button class="btn primary" data-act="save-name">' + esc(({ ru: 'Сохранить', en: 'Save', az: 'Saxla' })[s.lang] || 'Save') + '</button></div></section>';
 
     html += '<h2>' + esc(t('acc_title')) + '</h2><section class="card group">';
     if (!cs.available) {
@@ -792,6 +793,18 @@
         if (key === 'sound' && S().settings.sound) sfx('place');
         if (key === 'haptics' && S().settings.haptics) buzz(20);
         render();
+        break;
+      case 'save-name':
+        var nameInput = document.getElementById('playerName');
+        var newName = nameInput ? nameInput.value.trim().slice(0, 20) : '';
+        var nameMsg = { ru: ['Имя сохранено', 'Введите имя'], en: ['Name saved', 'Enter a name'], az: ['Ad saxlanıldı', 'Ad daxil edin'] }[S().settings.lang] || ['Name saved', 'Enter a name'];
+        if (!newName) { toast(nameMsg[1]); break; }
+        S().settings.name = newName;
+        Store.save();
+        toast(nameMsg[0]);
+        if (Cloud.state.user) {
+          Cloud.updateName(newName).then(function () { ui.global.state = 'idle'; });
+        }
         break;
       case 'reset': confirmBox(t('reset_q'), t('reset_yes'), function () { Store.resetProgress(); dailyPreview = null; render(); }, true); break;
       case 'auth': ui.authMode = 'in'; showAuth(); break;
