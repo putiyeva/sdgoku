@@ -73,7 +73,28 @@
 .g15 { background-image: url(../assets/sdg/goal-15.png); }
 .g16 { background-image: url(../assets/sdg/goal-16.png); }
 .g17 { background-image: url(../assets/sdg/goal-17.png); }
-.tile { display: block; background-size: cover; background-position: center; background-repeat: no-repeat; }
+.tile { display: block; position: relative; background-size: cover; background-position: center; background-repeat: no-repeat; }
+/* Фоновый цвет каждой плитки: им закрывается оригинальный номер цели, вместо него рисуется порядковый 1–9. */
+.g1 { --gc: #EB1C2E; }
+.g2 { --gc: #D3A02A; }
+.g3 { --gc: #279B48; }
+.g4 { --gc: #C21F34; }
+.g5 { --gc: #EF402B; }
+.g6 { --gc: #01AED9; }
+.g7 { --gc: #FCB712; }
+.g8 { --gc: #8F1838; }
+.g9 { --gc: #F36D26; }
+.g10 { --gc: #E01483; }
+.g11 { --gc: #F89E26; }
+.g12 { --gc: #CE8D29; }
+.g13 { --gc: #47763F; }
+.g14 { --gc: #017DBB; }
+.g15 { --gc: #3FAF49; }
+.g16 { --gc: #02558B; }
+.g17 { --gc: #173567; }
+.tile .seq { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.tile .seq rect { fill: var(--gc); }
+.tile .seq text { fill: #fff; font: 700 25px/1 var(--font-display); }
 
 /* ---------- основа ---------- */
 * { box-sizing: border-box; }
@@ -146,7 +167,13 @@ h3 { font: 600 17px/1.25 var(--font-body); text-wrap: balance; }
 /* ---------- главная ---------- */
 .brand { display: flex; flex-direction: column; gap: 6px; padding-top: 4px; }
 .wordmark { font: 700 46px/1 var(--font-display); letter-spacing: .01em; }
-.wordmark span { color: var(--accent); }
+/* Буквы названия окрашены в цвета логотипа целей (плитки 1, 7, 3, 6, 9, 10). */
+.wordmark .wm1 { color: #EB1C2E; }
+.wordmark .wm2 { color: #FCB712; }
+.wordmark .wm3 { color: #279B48; }
+.wordmark .wm4 { color: #01AED9; }
+.wordmark .wm5 { color: #F36D26; }
+.wordmark .wm6 { color: #E01483; }
 .tagline { color: var(--muted); max-width: 32ch; }
 .continue {
   display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; text-align: left;
@@ -175,6 +202,17 @@ h3 { font: 600 17px/1.25 var(--font-body); text-wrap: balance; }
 .bars { display: flex; gap: 3px; }
 .bars i { width: 16px; height: 5px; border-radius: 2px; background: var(--line); }
 .bars i.on { background: var(--ink); }
+.views { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.viewbtn {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 4px; text-align: left;
+  padding: 12px; border-radius: var(--r); border: 2px solid var(--line); background: var(--surface);
+}
+.viewbtn.on { border-color: var(--accent); background: var(--accent-soft); }
+.viewbtn strong { font: 600 17px/1.2 var(--font-display); letter-spacing: .03em; text-transform: uppercase; }
+.viewbtn .muted { font-size: 13px; line-height: 1.3; }
+.viewpic { width: 52px; height: 52px; display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-bottom: 4px; border-radius: 6px; overflow: hidden; background: var(--grid-strong); padding: 2px; }
+.viewpic i, .viewpic b { background-size: cover; background-color: var(--cell); }
+.viewpic b { display: grid; place-items: center; font: 700 17px/1 var(--font-display); color: var(--ink); }
 .how ol { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 6px; color: var(--muted); max-width: 65ch; }
 
 /* ---------- цели ---------- */
@@ -297,6 +335,13 @@ body.in-game #screen { padding: calc(8px + env(safe-area-inset-top)) max(12px, e
 .cell.peer { background: var(--peer); }
 .cell.sel { background: var(--accent-soft); }
 .cell .tile { position: absolute; inset: 0; }
+.cell .digit {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  font: 600 calc(var(--cs, 38px) * .64)/1 var(--font-display); color: var(--accent);
+}
+.cell.given .digit { color: var(--ink); font-weight: 700; }
+.cell.wrong .digit { color: var(--bad); }
+.cell.dim .digit { opacity: .3; }
 .cell.placed .tile { inset: 2px; border-radius: 4px; }
 .cell.dim .tile { opacity: .36; }
 .cell.wrong .tile { opacity: .62; }
@@ -306,6 +351,8 @@ body.in-game #screen { padding: calc(8px + env(safe-area-inset-top)) max(12px, e
 .cell.wrong::after { box-shadow: inset 0 0 0 3px var(--bad), inset 0 0 0 4px #fff; }
 .notes { position: absolute; inset: 2px; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); gap: 1px; }
 .notes i { display: block; background-size: cover; border-radius: 2px; }
+.notes i.d { display: grid; place-items: center; font: 600 calc(var(--cs, 38px) * .25)/1 var(--font-body); color: var(--muted); }
+.notes i.d.hl { background: var(--accent-soft); color: var(--accent); }
 .notes i.hl { outline: 2px solid var(--accent); outline-offset: -1px; }
 .board.hide .cell > * { visibility: hidden; }
 .board.hide .cell { background: var(--cell); }
@@ -330,6 +377,7 @@ body.in-game #screen { padding: calc(8px + env(safe-area-inset-top)) max(12px, e
   background: var(--surface); display: grid; place-items: center;
 }
 .padbtn .tile { height: calc(100% - 10px); aspect-ratio: 1; border-radius: 5px; }
+.padbtn .digit { font: 600 30px/1 var(--font-display); color: var(--ink); }
 .padbtn .left {
   position: absolute; top: -6px; right: -3px; min-width: 18px; height: 18px; padding: 0 4px; border-radius: 9px;
   background: var(--ink); color: var(--surface); font: 700 11px/18px var(--font-body); text-align: center;
