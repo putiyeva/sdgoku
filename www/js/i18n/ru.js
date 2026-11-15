@@ -24,6 +24,9 @@ window.SDGOKU_I18N.ru = {
   how_4: 'В режиме заметок можно отметить в клетке несколько возможных целей.',
 
   diff_easy: 'Лёгкий', diff_medium: 'Средний', diff_hard: 'Сложный', diff_expert: 'Эксперт', diff_daily: 'Головоломка дня',
+  view_title: 'Вид', view_simple: 'Простой режим', view_simple_d: 'Цифры 1–9, чистый вид',
+  view_logo: 'Режим логотипов', view_logo_d: 'Логотипы целей, сложнее',
+  caption_digit: 'Цифра {n}', caption_slot: '{v}. {name} (цель {n})',
   open_cells: '{n} открытых клеток',
   replace_q: 'Текущая игра будет потеряна. Начать новую?', replace_yes: 'Начать новую',
 
