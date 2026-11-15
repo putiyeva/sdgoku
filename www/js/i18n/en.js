@@ -24,6 +24,9 @@ window.SDGOKU_I18N.en = {
   how_4: 'Notes mode lets you mark several possible goals in one cell.',
 
   diff_easy: 'Easy', diff_medium: 'Medium', diff_hard: 'Hard', diff_expert: 'Expert', diff_daily: 'Daily puzzle',
+  view_title: 'View', view_simple: 'Simple mode', view_simple_d: 'Digits 1–9, clean look',
+  view_logo: 'Logo mode', view_logo_d: 'SDG logos, harder',
+  caption_digit: 'Digit {n}', caption_slot: '{v}. {name} (goal {n})',
   open_cells: '{n} cells given',
   replace_q: 'Your current game will be lost. Start a new one?', replace_yes: 'Start new',
 
