@@ -119,6 +119,21 @@
     }).catch(function () { return false; });
   }
 
+  /* Обновить имя игрока на всех досках, где у него уже есть результат. */
+  function updateName(name) {
+    if (!state.user || !db) return Promise.resolve(false);
+    var uid = state.user.uid;
+    var newName = String(name || '').slice(0, 20);
+    if (!newName) return Promise.resolve(false);
+    return db.collection('users').doc(uid).get().then(function (snap) {
+      var posted = (snap.exists && snap.data().posted) || [];
+      return Promise.all(posted.map(function (board) {
+        return db.collection('leaderboards').doc(board).collection('scores').doc(uid)
+          .update({ name: newName }).catch(function () { return null; });
+      }));
+    }).then(function () { return true; }).catch(function () { return false; });
+  }
+
   function fetchTop(board, limit) {
     if (!db) return Promise.reject(new Error('offline'));
     return db.collection('leaderboards').doc(board).collection('scores')
@@ -151,6 +166,6 @@
     state: state, init: init,
     onChange: function (fn) { listeners.push(fn); },
     signIn: signIn, signUp: signUp, resetPassword: resetPassword, signOut: signOut,
-    sync: sync, submitScore: submitScore, fetchTop: fetchTop, deleteAccount: deleteAccount
+    sync: sync, submitScore: submitScore, updateName: updateName, fetchTop: fetchTop, deleteAccount: deleteAccount
   };
 })(window);
