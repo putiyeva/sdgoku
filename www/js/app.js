@@ -25,6 +25,20 @@
 
   function S() { return Store.data; }
   function G() { return Store.data.game; }
+  // Вид игры: 'simple' — цифры 1–9, 'logo' — логотипы целей. У старых сохранений вида нет — это логотипы.
+  function viewOf(g) { return (g && g.view) || 'logo'; }
+  function curView() { return S().settings.view === 'logo' ? 'logo' : 'simple'; }
+  // Плитка цели в игре. Номер на оригинальном логотипе — это номер цели (3, 12, 17…), он мешает,
+  // поэтому в игре закрываем его цветным квадратом и пишем свой номер по порядку: 1–9.
+  function seqTile(goalId, v) {
+    var w = goalId >= 10 ? 25.5 : 21.5;
+    return '<span class="tile g' + goalId + '"><svg class="seq" viewBox="0 0 100 100" aria-hidden="true" focusable="false">' +
+      '<rect x="0" y="0" width="' + w + '" height="29.5"/><text x="' + (w / 2 + 2.5) + '" y="27.2" text-anchor="middle">' + v + '</text></svg></span>';
+  }
+  function slotLabel(g, v) {
+    var gid = g.goals[v - 1];
+    return viewOf(g) === 'logo' ? v + '. ' + goalText(gid).name : String(v);
+  }
 
   // ------------------------------------------------------------ язык и формат
   function detectLang() {
@@ -154,7 +168,9 @@
   function viewHome() {
     var g = G(), today = Store.dateKey(), dp = getDailyPreview();
     var done = S().daily.done[today];
-    var html = '<header class="brand"><h1 class="wordmark">SDG<span>oku</span></h1>' +
+    // Название — цветами плиток целей: каждая буква своего цвета.
+    var wm = 'SDGoku'.split('').map(function (ch, k) { return '<span class="wm' + (k + 1) + '">' + ch + '</span>'; }).join('');
+    var html = '<header class="brand"><h1 class="wordmark" aria-label="SDGoku">' + wm + '</h1>' +
       '<p class="tagline">' + esc(t('tagline')) + '</p></header>';
 
     if (g && g.status === 'playing') {
@@ -179,6 +195,16 @@
       (streak > 0 ? '<p class="streak">' + esc(t('daily_streak', { n: streak })) + '</p>' : '') +
       (done ? '' : '<button class="btn primary" data-act="daily">' + esc(t('play')) + '</button>') +
       '</div><div class="mini" aria-hidden="true">' + mini + '</div></section>';
+
+    var cv = curView();
+    html += '<section><h2>' + esc(t('view_title')) + '</h2><div class="views" role="radiogroup" aria-label="' + esc(t('view_title')) + '">' +
+      ['simple', 'logo'].map(function (m) {
+        return '<button class="viewbtn' + (cv === m ? ' on' : '') + '" role="radio" aria-checked="' + (cv === m) + '" data-act="view" data-view="' + m + '">' +
+          '<span class="viewpic ' + m + '" aria-hidden="true">' + (m === 'simple'
+            ? '<b>1</b><b>2</b><b>3</b><b>4</b>'
+            : '<i class="g1"></i><i class="g7"></i><i class="g3"></i><i class="g6"></i>') + '</span>' +
+          '<strong>' + esc(t('view_' + m)) + '</strong><span class="muted">' + esc(t('view_' + m + '_d')) + '</span></button>';
+      }).join('') + '</div></section>';
 
     html += '<section><h2>' + esc(t('new_game')) + '</h2><div class="levels">' + DIFFS.map(function (d, idx) {
       var bars = '';
@@ -405,7 +431,7 @@
     var notes = [];
     for (var i = 0; i < 81; i++) notes.push(0);
     S().game = {
-      v: 1, mode: mode, board: board, diff: diff, dateKey: dateKey, seed: seed, goals: goals.slice(),
+      v: 1, mode: mode, view: curView(), board: board, diff: diff, dateKey: dateKey, seed: seed, goals: goals.slice(),
       puzzle: p.puzzle.slice(), solution: p.solution.slice(), cells: p.puzzle.slice(), notes: notes,
       mistakes: 0, hints: 0, seconds: 0, history: [], status: 'playing'
     };
@@ -451,8 +477,8 @@
       '<button class="tool" id="toolHint" data-act="hint">' + icon('hint') + '<span>' + esc(t('tool_hint')) + '</span><b id="hintLeft"></b></button>' +
       '</div><div class="pad" id="pad">';
     for (var v = 1; v <= 9; v++) {
-      html += '<button class="padbtn" data-act="pad" data-v="' + v + '" aria-label="' + esc(t('caption_goal', { n: g.goals[v - 1], name: goalText(g.goals[v - 1]).name })) + '">' +
-        '<span class="tile g' + g.goals[v - 1] + '"></span><span class="left"></span></button>';
+      html += '<button class="padbtn" data-act="pad" data-v="' + v + '" aria-label="' + esc(slotLabel(g, v)) + '">' +
+        (viewOf(g) === 'logo' ? seqTile(g.goals[v - 1], v) : '<span class="digit">' + v + '</span>') + '<span class="left"></span></button>';
     }
     html += '<button class="padbtn erase" data-act="erase" aria-label="' + esc(t('tool_erase')) + '">' + icon('erase') + '<span class="eraselbl">' + esc(t('tool_erase')) + '</span></button></div></div>';
     $screen.innerHTML = html;
@@ -471,6 +497,7 @@
     var s = Math.floor(Math.min(wrap.clientWidth, wrap.clientHeight));
     s = Math.max(s, 228);
     board.style.width = board.style.height = s + 'px';
+    board.style.setProperty('--cs', (s / 9).toFixed(1) + 'px');
   }
 
   function isLocked(i) { var g = G(); return g.puzzle[i] !== 0 || (g.cells[i] !== 0 && g.cells[i] === g.solution[i]); }
@@ -482,7 +509,7 @@
   function paintGame() {
     var g = G();
     if (!g || !cellEls.length) return;
-    var hv = highlightValue(), sel = ui.sel, dimOthers = S().settings.highlight;
+    var hv = highlightValue(), sel = ui.sel, dimOthers = S().settings.highlight, simple = viewOf(g) === 'simple';
     var counts = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], i, v;
     for (i = 0; i < 81; i++) {
       v = g.cells[i];
@@ -492,13 +519,15 @@
         if (!wrong) counts[v]++;
         cls += given ? ' given' : ' placed';
         if (wrong) cls += ' wrong';
-        html = '<span class="tile g' + g.goals[v - 1] + '"></span>';
+        html = simple ? '<span class="digit">' + v + '</span>' : seqTile(g.goals[v - 1], v);
         if (hv) { if (v === hv) cls += ' same'; else if (dimOthers) cls += ' dim'; }
-        label = goalText(g.goals[v - 1]).name;
+        label = slotLabel(g, v);
       } else if (g.notes[i]) {
         html = '<span class="notes">';
         for (var n = 1; n <= 9; n++) {
-          html += (g.notes[i] & (1 << n)) ? '<i class="g' + g.goals[n - 1] + (hv === n ? ' hl' : '') + '"></i>' : '<i></i>';
+          if (g.notes[i] & (1 << n)) {
+            html += simple ? '<i class="d' + (hv === n ? ' hl' : '') + '">' + n + '</i>' : '<i class="g' + g.goals[n - 1] + (hv === n ? ' hl' : '') + '"></i>';
+          } else html += '<i></i>';
         }
         html += '</span>';
         label = t('tool_notes');
@@ -527,7 +556,10 @@
       pads[p].querySelector('.left').textContent = left > 0 ? left : '';
     }
     var cap = document.getElementById('caption');
-    if (hv) { var gid = g.goals[hv - 1]; cap.textContent = t('caption_goal', { n: gid, name: goalText(gid).name }); }
+    if (hv) {
+      var gid = g.goals[hv - 1];
+      cap.textContent = simple ? t('caption_digit', { n: hv }) : t('caption_slot', { v: hv, n: gid, name: goalText(gid).name });
+    }
     else cap.textContent = ui.notes ? t('caption_notes') : t('caption_pick');
     document.getElementById('gMist').textContent = t('mistakes') + ': ' + g.mistakes + '/' + RULES.maxMistakes;
     document.getElementById('gMist').className = g.mistakes ? 'warn' : '';
@@ -783,6 +815,7 @@
       case 'daily': requestGame('daily'); break;
       case 'new': requestGame('classic', el.getAttribute('data-diff')); break;
       case 'goal': showGoal(+el.getAttribute('data-goal')); break;
+      case 'view': S().settings.view = el.getAttribute('data-view') === 'logo' ? 'logo' : 'simple'; Store.save(); sfx('tap'); render(); break;
       case 'rec-board': ui.recBoard = el.getAttribute('data-board'); ui.global.state = 'idle'; render(); break;
       case 'rec-view': ui.recView = el.getAttribute('data-view'); ui.global.state = 'idle'; render(); break;
       case 'lang': S().settings.lang = el.getAttribute('data-lang'); Store.save(); render(); break;
