@@ -28,12 +28,14 @@
   // Вид игры: 'simple' — цифры 1–9, 'logo' — логотипы целей. У старых сохранений вида нет — это логотипы.
   function viewOf(g) { return (g && g.view) || 'logo'; }
   function curView() { return S().settings.view === 'logo' ? 'logo' : 'simple'; }
-  // Плитка цели в игре. Номер на оригинальном логотипе — это номер цели (3, 12, 17…), он мешает,
-  // поэтому в игре закрываем его цветным квадратом и пишем свой номер по порядку: 1–9.
+  // Плитка цели в игре. Верхняя полоса оригинального логотипа (номер цели и название) закрывается
+  // цветной заливкой: остаётся только рисунок. В левом верхнем углу пишем свой номер по порядку: 1–9.
+  // Высота закрашиваемой полосы в процентах; у целей 12 и 16 название занимает три строки.
+  var COVER_H = { 12: 44.5, 16: 41.8 };
   function seqTile(goalId, v) {
-    var w = goalId >= 10 ? 25.5 : 21.5;
+    var h = COVER_H[goalId] || 33;
     return '<span class="tile g' + goalId + '"><svg class="seq" viewBox="0 0 100 100" aria-hidden="true" focusable="false">' +
-      '<rect x="0" y="0" width="' + w + '" height="29.5"/><text x="' + (w / 2 + 2.5) + '" y="27.2" text-anchor="middle">' + v + '</text></svg></span>';
+      '<rect x="0" y="0" width="100" height="' + h + '"/><text x="14" y="27.2" text-anchor="middle">' + v + '</text></svg></span>';
   }
   function slotLabel(g, v) {
     var gid = g.goals[v - 1];
