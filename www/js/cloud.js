@@ -94,13 +94,20 @@
     });
   }
 
-  /* Отправить результат в общий рейтинг (сохраняется только лучший результат игрока на доске). */
+  /* Отправить результат в общий рейтинг (сохраняется только лучший результат игрока на доске).
+     Если результат не лучше прежнего, но имя игрока изменилось, обновляется только имя. */
   function submitScore(board, entry, name) {
     if (!state.user || !db) return Promise.resolve(false);
     var uid = state.user.uid;
     var ref = db.collection('leaderboards').doc(board).collection('scores').doc(uid);
     return ref.get().then(function (snap) {
-      if (snap.exists && snap.data().score <= entry.score) return false;
+      if (snap.exists && snap.data().score <= entry.score) {
+        var newName = String(name || '').slice(0, 20);
+        if (newName && snap.data().name !== newName) {
+          return ref.update({ name: newName }).then(function () { return true; });
+        }
+        return false;
+      }
       return ref.set({
         name: String(name || '').slice(0, 20),
         score: entry.score, seconds: entry.seconds, hints: entry.hints, mistakes: entry.mistakes,
