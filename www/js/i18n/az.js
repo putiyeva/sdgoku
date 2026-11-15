@@ -26,6 +26,9 @@ window.SDGOKU_I18N.az = {
   how_4: 'Qeydlər rejimində bir xanada bir neçə mümkün məqsədi işarələmək olar.',
 
   diff_easy: 'Asan', diff_medium: 'Orta', diff_hard: 'Çətin', diff_expert: 'Ekspert', diff_daily: 'Günün tapmacası',
+  view_title: 'Görünüş', view_simple: 'Sadə rejim', view_simple_d: 'Rəqəmlər 1–9, təmiz görünüş',
+  view_logo: 'Loqo rejimi', view_logo_d: 'SDG loqoları, daha çətin',
+  caption_digit: 'Rəqəm {n}', caption_slot: '{v}. {name} (məqsəd {n})',
   open_cells: '{n} açıq xana',
   replace_q: 'Cari oyun silinəcək. Yenisi başlansın?', replace_yes: 'Yenisini başla',
 
